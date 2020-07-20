@@ -3,7 +3,7 @@ var router = express.Router()
 
 /* GET users listing. */
 router.get('/', function (req, res, next) {
-  res.send('User: <user> email: <email>')
+  res.send('USERS IS WORKING!!!')
 })
 
 module.exports = router
