@@ -1,3 +1,4 @@
+var cors = require('cors')
 var createError = require('http-errors')
 var express = require('express')
 var path = require('path')
@@ -8,6 +9,7 @@ var indexRouter = require('./routes/index')
 var usersRouter = require('./routes/users')
 
 var app = express()
+app.use(cors())
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'))
@@ -21,6 +23,11 @@ app.use(express.static(path.join(__dirname, 'public')))
 
 app.use('/', indexRouter)
 app.use('/users', usersRouter)
+
+app.get('/ping', (req, res) => {
+  res.send('pong')
+})
+
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
@@ -38,7 +45,7 @@ app.use(function (err, req, res, next) {
   res.render('error')
 })
 
-const port = process.env.PORT || 3000
+const port = process.env.PORT || 4000
 
 app.listen(port, () => console.log("Server started on port ", port))
 
