@@ -22,7 +22,7 @@ const bodyParser = require('body-parser')
 const { User } = require('./models/user')
 
 // connect to Db
-mongoose.connect("mongodb+srv://aaron:1a2b3c4d5e@cluster0.tlhpy.mongodb.net/database1?retryWrites=true&w=majority", {
+mongoose.connect("mongodb+srv://aaron:1a2b3c4d5e@react-gaming.ynddk.mongodb.net/react-gaming?retryWrites=true&w=majority", {
   useCreateIndex: true,
   useUnifiedTopology: true,
   useNewUrlParser: true
@@ -30,6 +30,13 @@ mongoose.connect("mongodb+srv://aaron:1a2b3c4d5e@cluster0.tlhpy.mongodb.net/data
 
 var app = express()
 app.use(cors())
+
+app.use(cors({
+  // people coming from "http://localhost:3000"
+  origin: "http://localhost:3000",
+  // allow client to send credentials like cookies and headers
+  credentials: true
+}))
 
 // Saving session
 app.use(session({
@@ -123,24 +130,18 @@ app.get('/users/logout', (req, res) => {
   res.sendStatus(200)
 })
 
+// view engine setup
+app.set('views', path.join(__dirname, 'views'))
+app.set('view engine')
 
-// // view engine setup
-// app.set('views', path.join(__dirname, 'views'))
-// app.set('view engine', 'jade')
+// app.use(logger('dev'))
+app.use(express.json())
+app.use(express.urlencoded({ extended: false }))
+app.use(cookieParser())
+app.use(express.static(path.join(__dirname, 'public')))
 
-// // app.use(logger('dev'))
-// app.use(express.json())
-// app.use(express.urlencoded({ extended: false }))
-// app.use(cookieParser())
-// app.use(express.static(path.join(__dirname, 'public')))
-
-// app.use('/', indexRouter)
+app.use('/', indexRouter)
 // app.use('/users', usersRouter)
-
-// app.get('/ping', (req, res) => {
-//   res.send('pong')
-// })
-
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
