@@ -10,6 +10,22 @@ var usersRouter = require('./routes/users')
 
 var axios = require('axios')
 
+// Require Statements
+const mongoose = require('mongoose')
+
+const passport = require("./routes/passport")
+const session = require('express-session')
+const MongoStore = require('connect-mongo')(session);
+const bodyParser = require('body-parser')
+const {User} = require('./models/user')
+
+// connect to Db
+mongoose.connect("mongodb+srv://aaron:1a2b3c4d5e@cluster0.tlhpy.mongodb.net/database1?retryWrites=true&w=majority", {
+    useCreateIndex: true,
+    useUnifiedTopology: true,
+    useNewUrlParser: true
+})
+
 var app = express()
 app.use(cors())
 
