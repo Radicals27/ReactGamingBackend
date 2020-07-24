@@ -29,7 +29,7 @@ mongoose.connect("mongodb+srv://aaron:1a2b3c4d5e@react-gaming.ynddk.mongodb.net/
 })
 
 var app = express()
-app.use(cors())
+// app.use(cors())
 
 app.use(cors({
   // people coming from "http://localhost:3000"
@@ -99,7 +99,7 @@ app.post('/users/register', (req, res) => {
   //1 new User object
   //2 password => that gets automatically hashed and stored in db
   //3 callback
-
+  console.log(`Req body: ${req.body}`)
   User.register(new User({ username: req.body.username, displayName: req.body.username }), req.body.password, function (err, user) {
     // creates a new User
     // if theres an error
@@ -114,6 +114,7 @@ app.post('/users/register', (req, res) => {
       })
     }
   })
+
 })
 
 app.get('/users/me', (req, res) => {
@@ -156,7 +157,7 @@ app.use(function (err, req, res, next) {
 
   // render the error page
   res.status(err.status || 500)
-  res.render('error')
+  //res.render('error')
 })
 
 const port = process.env.PORT || 4000
