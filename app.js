@@ -3,23 +3,17 @@ var createError = require('http-errors')
 var express = require('express')
 var path = require('path')
 var cookieParser = require('cookie-parser')
-// var logger = require('morgan')
-
-var indexRouter = require('./routes/index')
-//var usersRouter = require('./routes/OLDusers')
-
 var axios = require('axios')
-
-// Require Statements
 const mongoose = require('mongoose')
-
 var passport = require('passport')
-require('./routes/passport')
-
 const session = require('express-session')
 const MongoStore = require('connect-mongo')(session)
-const bodyParser = require('body-parser')
 const { User } = require('./models/user')
+require('./routes/passport')
+
+// path to index router
+const indexRouter = require('./routes/index')
+
 
 // connect to Db
 mongoose.connect("mongodb+srv://aaron:1a2b3c4d5e@react-gaming.ynddk.mongodb.net/react-gaming?retryWrites=true&w=majority", {
@@ -57,6 +51,7 @@ app.use(cookieParser("fooooooooooooo"))
 app.use(passport.initialize())
 app.use(passport.session())
 // End of the Middleware
+
 
 // Start of routes
 app.get('/failed', (req, res) => {
