@@ -10,6 +10,11 @@ require('./routes/passport')
 const session = require('express-session')
 const MongoStore = require('connect-mongo')(session)
 const { User } = require('./models/user')
+require('./routes/passport')
+
+// path to index router
+const indexRouter = require('./routes/index')
+
 
 // connect to Mongo Db
 mongoose.connect("mongodb+srv://aaron:1a2b3c4d5e@react-gaming.ynddk.mongodb.net/react-gaming?retryWrites=true&w=majority", {
@@ -42,6 +47,7 @@ app.use(cookieParser("react-gamer"))
 // Middleware setup
 app.use(passport.initialize())
 app.use(passport.session())
+
 
 
 // Routes
