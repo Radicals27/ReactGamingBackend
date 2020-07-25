@@ -3,25 +3,16 @@ var createError = require('http-errors')
 var express = require('express')
 var path = require('path')
 var cookieParser = require('cookie-parser')
-// var logger = require('morgan')
-
 var indexRouter = require('./routes/index')
-//var usersRouter = require('./routes/OLDusers')
-
 var axios = require('axios')
-
-// Require Statements
 const mongoose = require('mongoose')
-
 var passport = require('passport')
 require('./routes/passport')
-
 const session = require('express-session')
 const MongoStore = require('connect-mongo')(session)
-const bodyParser = require('body-parser')
 const { User } = require('./models/user')
 
-// connect to Db
+// connect to Mongo Db
 mongoose.connect("mongodb+srv://aaron:1a2b3c4d5e@react-gaming.ynddk.mongodb.net/react-gaming?retryWrites=true&w=majority", {
   useCreateIndex: true,
   useUnifiedTopology: true,
@@ -29,36 +20,32 @@ mongoose.connect("mongodb+srv://aaron:1a2b3c4d5e@react-gaming.ynddk.mongodb.net/
 })
 
 var app = express()
-// app.use(cors())
 
 app.use(cors({
-  // people coming from "http://localhost:3000"
+  // people coming from front end server
   origin: "http://localhost:3000",
-  // allow client to send credentials like cookies and headers
+  // permit cookies and header credentials
   credentials: true
 }))
 
-// Saving session
+// Save cookie of session
 app.use(session({
-  secret: "fooooooooooooo",
+  secret: "react-gamer",
   resave: true,
   saveUninitialized: false,
-  // new MongoStore needs a connection, we have an existing connection so we re-use that
+  // Re-use existing connection for Mongo store
   store: new MongoStore({ mongooseConnection: mongoose.connection }),
-  // cookie: {
-  //     maxAge: 3600000
-  // }
 }))
 
-// Reading Cookies to read session
-// secret needs to be the same as what is provided to cookieParser
-app.use(cookieParser("fooooooooooooo"))
+// Read the cookies for the session
+app.use(cookieParser("react-gamer"))
 
+// Middleware setup
 app.use(passport.initialize())
 app.use(passport.session())
-// End of the Middleware
 
-// Start of routes
+
+// Routes
 app.get('/failed', (req, res) => {
   res.redirect('http://localhost:3000')
 })
@@ -95,10 +82,6 @@ app.post("/users/login", (req, res, next) => {
 })
 
 app.post('/users/register', (req, res) => {
-  //3 args
-  //1 new User object
-  //2 password => that gets automatically hashed and stored in db
-  //3 callback
   console.log(`Req body: ${req.body}`)
   User.register(new User({ username: req.body.username, displayName: req.body.username }), req.body.password, function (err, user) {
     // creates a new User
@@ -117,23 +100,20 @@ app.post('/users/register', (req, res) => {
 
 })
 
+// If page refreshes, get current user
 app.get('/users/me', (req, res) => {
-  // when the client refreshes the page, it makes a request to this route
-  // passport reads the cookie and attaches the user to the req object
-  // then we send back the user
   res.send(req.user)
 })
 
 app.get('/users/logout', (req, res) => {
   // call the logout function provided by passport
   req.logOut()
-  // send an ok
   res.sendStatus(200)
 })
 
 // view engine setup
-app.set('views', path.join(__dirname, 'views'))
-app.set('view engine')
+// app.set('views', path.join(__dirname, 'views'))
+// app.set('view engine')
 
 // app.use(logger('dev'))
 app.use(express.json())
@@ -156,8 +136,10 @@ app.use(function (err, req, res, next) {
   res.locals.error = req.app.get('env') === 'development' ? err : {}
 
   // render the error page
-  res.status(err.status || 500)
-  //res.render('error')
+  res.status(err.status || 500).json({
+    message: err.message,
+    error: err
+  });
 })
 
 const port = process.env.PORT || 4000
