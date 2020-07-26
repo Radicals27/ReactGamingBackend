@@ -50,6 +50,41 @@ const optionsVideogameAutocomplete = {
   }
 }
 
+
+const optionsSearchArchive = {
+  method: 'GET',
+  headers: userAgent,
+  url: 'https://archive.org/advancedsearch.php',
+  qs: {
+    q: undefined,
+    rows: '5',
+    page: '1',
+    output: 'json',
+    'fl[]': 'identifier',
+    'sort[]': 'downloads desc'
+  }
+}
+
+const optionsSearchOldgameshelf = {
+  method: 'GET',
+  headers: userAgent,
+  url: 'https://oldgameshelf.com/api/v1/games',
+  qs: {
+    _q: undefined,
+    _limit: '1'
+  }
+}
+
+const optionsSearchSnesnow = {
+  method: 'GET',
+  headers: userAgent,
+  url: 'https://snesnow.com/media',
+  qs: {
+    _q: undefined,
+    _limit: '1'
+  }
+}
+
 let parsedResult
 
 async function apiCall(options) {
@@ -90,6 +125,52 @@ router.get('/trending', async (req, res) => {
   res.json(await apiCall(optionsTrending))
   console.log('/trending endpoint has been called!')
 })
+
+    router.get('/searchArchive', async (req, res) => {
+      try {
+        const queryTitle = req.query.title
+        const queryYear = req.query.year
+        optionsSearchArchive.qs.q = `title:(${queryTitle}) AND collection:(softwarelibrary^10) AND year:(${queryYear}) AND mediatype:(software)`
+        res.set('Cache-Control', 'no-cache')
+        res.json(await apiCall(optionsSearchArchive))
+        console.log(`/api/searchArchive?title=${queryTitle}&year=${queryYear} endpoint has been called!`)
+      } catch (e) {
+        console.error(e)
+      }
+    })
+
+    router.get('/searchOldgameshelf', async (req, res) => {
+      try {
+        const queryTitle = req.query.title
+        optionsSearchOldgameshelf.qs._q = queryTitle
+        res.set('Cache-Control', 'no-cache')
+        res.json(await apiCall(optionsSearchOldgameshelf))
+        console.log(`searchOldgameshelf?title=${queryTitle} endpoint has been called!`)
+      } catch (e) {
+        console.error(e)
+      }
+    })
+
+    router.get('/searchSnesnow', async (req, res) => {
+      try {
+        const queryTitle = req.query.title
+        optionsSearchSnesnow.qs._q = queryTitle
+        res.set('Cache-Control', 'no-cache')
+        res.json(await apiCall(optionsSearchSnesnow))
+        console.log(`searchSnesnow?title=${queryTitle} endpoint has been called!`)
+      } catch (e) {
+        console.error(e)
+      }
+    })
+
+
+    router.get('/videogameAutocomplete', async (req, res) => {
+      const query = req.query.q
+      optionsVideogameAutocomplete.qs.search = query
+      res.set('Cache-Control', 'no-cache')
+      res.json(await apiCall(optionsVideogameAutocomplete))
+      console.log(`/api/videogameAutocomplete?q=${query} endpoint has been called!`)
+    })
 
 
 // endpoint for the details page
