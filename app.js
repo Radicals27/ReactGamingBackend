@@ -10,6 +10,7 @@ require('./routes/passport')
 const session = require('express-session')
 const MongoStore = require('connect-mongo')(session)
 const { User } = require('./models/user')
+const bodyParser = require('body-parser')
 
 // connect to Mongo Db
 mongoose.connect("mongodb+srv://aaron:1a2b3c4d5e@react-gaming.ynddk.mongodb.net/react-gaming?retryWrites=true&w=majority", {
@@ -19,6 +20,10 @@ mongoose.connect("mongodb+srv://aaron:1a2b3c4d5e@react-gaming.ynddk.mongodb.net/
 })
 
 var app = express()
+
+// Middleware
+app.use(bodyParser.json())
+app.use(bodyParser.urlencoded({extended: true}))
 
 app.use(cors({
   // people coming from front end server
@@ -138,7 +143,7 @@ app.use(function (err, req, res, next) {
   res.status(err.status || 500).json({
     message: err.message,
     error: err
-  });
+  })
 })
 
 const port = process.env.PORT || 4000
