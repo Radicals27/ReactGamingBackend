@@ -3,7 +3,6 @@ var createError = require('http-errors')
 var express = require('express')
 var path = require('path')
 var cookieParser = require('cookie-parser')
-var indexRouter = require('./routes/index')
 const mongoose = require('mongoose')
 var passport = require('passport')
 require('./routes/passport')
@@ -11,6 +10,10 @@ const session = require('express-session')
 const MongoStore = require('connect-mongo')(session)
 const { User } = require('./models/user')
 const bodyParser = require('body-parser')
+require('./routes/passport')
+
+// path to index router
+const indexRouter = require('./routes/index')
 
 // connect to Mongo Db
 mongoose.connect("mongodb+srv://aaron:1a2b3c4d5e@react-gaming.ynddk.mongodb.net/react-gaming?retryWrites=true&w=majority", {
@@ -47,6 +50,7 @@ app.use(cookieParser("react-gamer"))
 // Middleware setup
 app.use(passport.initialize())
 app.use(passport.session())
+
 
 
 // Routes
