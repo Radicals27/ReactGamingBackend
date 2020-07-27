@@ -11,12 +11,13 @@ const MongoStore = require('connect-mongo')(session)
 const { User } = require('./models/user')
 const bodyParser = require('body-parser')
 require('./routes/passport')
+require('dotenv').config()
 
 // path to index router
 const indexRouter = require('./routes/index')
 
 // connect to Mongo Db
-mongoose.connect("mongodb+srv://aaron:1a2b3c4d5e@react-gaming.ynddk.mongodb.net/react-gaming?retryWrites=true&w=majority", {
+mongoose.connect(`mongodb+srv://${process.env.DB_USER}:${process.env.DB_PASS}@react-gaming.ynddk.mongodb.net/${process.env.DB_PROD}?retryWrites=true&w=majority`, {
   useCreateIndex: true,
   useUnifiedTopology: true,
   useNewUrlParser: true
@@ -26,11 +27,11 @@ var app = express()
 
 // Middleware
 app.use(bodyParser.json())
-app.use(bodyParser.urlencoded({extended: true}))
+app.use(bodyParser.urlencoded({ extended: true }))
 
 app.use(cors({
   // people coming from front end server
-  origin: "https://react-gaming.herokuapp.com/",
+  origin: `${process.env.FRONT_END_URL}`,
   // permit cookies and header credentials
   credentials: true
 }))
@@ -53,21 +54,21 @@ app.use(passport.session())
 
 // Routes
 app.get('/failed', (req, res) => {
-  res.redirect('https://react-gaming.herokuapp.com/')
+  res.redirect(`${process.env.FRONT_END_URL}`)
 })
 
 app.get('/auth/google', passport.authenticate('google', { scope: ['profile'] }))
 
 app.get('/auth/google/callback', passport.authenticate('google', { failureRedirect: '/failed' }),
   function (req, res) {
-    res.redirect('https://react-gaming.herokuapp.com/')
+    res.redirect(`${process.env.FRONT_END_URL}`)
   })
 
 app.get('/auth/discord', passport.authenticate('discord'))
 
 app.get('/auth/discord/callback', passport.authenticate('discord', { failureRedirect: '/' }),
   function (req, res) {
-    res.redirect('https://react-gaming.herokuapp.com/')
+    res.redirect(`${process.env.FRONT_END_URL}`)
   })
 
 
