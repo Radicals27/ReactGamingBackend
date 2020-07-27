@@ -21,7 +21,7 @@ passport.use(User.createStrategy());
 passport.use(new GoogleStrategy({
     clientID: "876353669737-s4f71ldd024ckdpp4d45j6ovu4v5b0as.apps.googleusercontent.com",
     clientSecret: "ofmSd8kYqq5_v83dEajZg-OL",
-    callbackURL: "http://localhost:4000/auth/google/callback"
+    callbackURL: "https://react-gaming-backend.herokuapp.com/auth/google/callback"
   },
   function(accessToken, refreshToken, profile, cb) {
     OauthUser.findOrCreate({id: profile.id, displayName: profile.displayName}, 'googleId', function(err, user) {
@@ -38,7 +38,7 @@ var scopes = ['identify', 'email'];
 passport.use(new DiscordStrategy({
     clientID: '734966453014626315',
     clientSecret: 'dvukCLIrX4yQrbDfUsFLt7oSNlr77X9t',
-    callbackURL: 'http://localhost:4000/auth/discord/callback',
+    callbackURL: 'https://react-gaming-backend.herokuapp.com/auth/discord/callback',
     scope: scopes
 },
 function(accessToken, refreshToken, profile, cb) {

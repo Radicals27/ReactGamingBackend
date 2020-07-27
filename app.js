@@ -30,7 +30,7 @@ app.use(bodyParser.urlencoded({extended: true}))
 
 app.use(cors({
   // people coming from front end server
-  origin: "http://localhost:3000",
+  origin: "https://react-gaming.herokuapp.com/",
   // permit cookies and header credentials
   credentials: true
 }))
@@ -51,25 +51,23 @@ app.use(cookieParser("react-gamer"))
 app.use(passport.initialize())
 app.use(passport.session())
 
-
-
 // Routes
 app.get('/failed', (req, res) => {
-  res.redirect('http://localhost:3000')
+  res.redirect('https://react-gaming.herokuapp.com/')
 })
 
 app.get('/auth/google', passport.authenticate('google', { scope: ['profile'] }))
 
 app.get('/auth/google/callback', passport.authenticate('google', { failureRedirect: '/failed' }),
   function (req, res) {
-    res.redirect('http://localhost:3000')
+    res.redirect('https://react-gaming.herokuapp.com/')
   })
 
 app.get('/auth/discord', passport.authenticate('discord'))
 
 app.get('/auth/discord/callback', passport.authenticate('discord', { failureRedirect: '/' }),
   function (req, res) {
-    res.redirect('http://localhost:3000')
+    res.redirect('https://react-gaming.herokuapp.com/')
   })
 
 
