@@ -19,8 +19,8 @@ passport.use(User.createStrategy())
 
 // Create a google strategy, import package
 passport.use(new GoogleStrategy({
-    clientID: "157895230249-agrvo2b25jecn7isgs81hsv77khm7lfs.apps.googleusercontent.com",
-    clientSecret: "QA8lxUiDJaxm6y4FeWotV73l",
+    clientID: `${process.env.GOOGLE_CLIENT_ID}`,
+    clientSecret: `${process.env.GOOGLE_CLIENT_SECRET}`,
     callbackURL: "https://react-gaming-backend.herokuapp.com/auth/google/callback"
 },
     function (accessToken, refreshToken, profile, cb) {
@@ -36,8 +36,8 @@ var DiscordStrategy = require('passport-discord').Strategy
 var scopes = ['identify', 'email']
 
 passport.use(new DiscordStrategy({
-    clientID: '737455304077213696',
-    clientSecret: 'Xo1CmGRKZv38MXUCwm7u9p-rdM0eweQk',
+    clientID: `${process.env.DISCORD_CLIENT_ID}`,
+    clientSecret: `${process.env.DISCORD_CLIENT_SECRET}`,
     callbackURL: 'https://react-gaming-backend.herokuapp.com/auth/discord/callback',
     scope: scopes
 },
