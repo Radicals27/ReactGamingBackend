@@ -83,6 +83,7 @@ app.post("/users/login", (req, res, next) => {
       req.logIn(user, err => {
         if (err) throw err
         res.send(user)
+        console.log(`sending user: ${user}`)
       })
     }
   })(req, res, next)
