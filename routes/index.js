@@ -3,6 +3,8 @@ var router = express.Router()
 var axios = require('axios')
 const request = require('request')
 
+//CHICKEN
+
 //Rawg requires a user-agent with the name of the app in the header
 const userAgent = { 'User-Agent': 'React-gaming(GitHub)' }
 
