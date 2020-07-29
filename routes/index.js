@@ -18,7 +18,7 @@ const optionsTrending = {
   qs: {
     ordering: '-relevance',
     discover: true,
-    page_size: 10
+    page_size: 20
   }
 }
 
