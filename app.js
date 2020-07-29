@@ -110,6 +110,7 @@ app.post('/users/register', (req, res) => {
 
 // If page refreshes, get current user
 app.get('/users/me', (req, res) => {
+  console.log(`user being sent: ${req.user}`)
   res.send(req.user)
 })
 
