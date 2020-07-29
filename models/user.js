@@ -13,7 +13,15 @@ const UserSchema = new mongoose.Schema({
     displayName: {
         type: String
     },
+    favourites: [
+        {
+            // Holds the game ID as string and "true" to represent the game has been favourited
+            type: String,
+            type: Boolean
+        }
+    ],
 })
+
 
 // creating a clone of UserSchema, BEFORE I plugin the passportLocalMongoose addons
 const OauthUserSchema = UserSchema.clone()

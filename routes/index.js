@@ -174,7 +174,7 @@ router.get('/trending', async (req, res) => {
 
 
 // endpoint for the details page
-router.get('/game/:rawgId', async (req, res) => {
+router.get('/games/:rawgId', async (req, res) => {
   const id = req.params.rawgId.match(/\d+/)
   const getPrimaryDetails = async () => {
     optionsVideogame.url = `https://api.rawg.io/api/games/${id}`

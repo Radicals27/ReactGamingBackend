@@ -5,7 +5,7 @@ var path = require('path')
 var cookieParser = require('cookie-parser')
 const mongoose = require('mongoose')
 var passport = require('passport')
-require('./routes/passport')
+
 const session = require('express-session')
 const MongoStore = require('connect-mongo')(session)
 const { User } = require('./models/user')
