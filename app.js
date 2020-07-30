@@ -91,6 +91,7 @@ app.post("/users/login", (req, res, next) => {
 
 app.post('/users/register', (req, res) => {
   console.log(`Req body: ${req.body}`)
+  console.log(`Req user: ${req.user}`)
   User.register(new User({ username: req.body.username, displayName: req.body.username }), req.body.password, function (err, user) {
     // creates a new User
     // if theres an error
@@ -110,6 +111,7 @@ app.post('/users/register', (req, res) => {
 
 // If page refreshes, get current user
 app.get('/users/me', (req, res) => {
+  
   res.send(req.user)
 })
 
