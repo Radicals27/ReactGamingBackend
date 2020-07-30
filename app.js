@@ -83,15 +83,16 @@ app.post("/users/login", (req, res, next) => {
       req.logIn(user, err => {
         if (err) throw err
         res.send(user)
-        console.log(`sending user: ${user}`)
       })
     }
   })(req, res, next)
 })
 
 app.post('/users/register', (req, res) => {
-  console.log(`Req body: ${req.body}`)
-  console.log(`Req user: ${req.user}`)
+  console.log(`Req body:`)
+  console.log(req.body)
+  console.log(`Req user:`)
+  console.log(req.user)
   User.register(new User({ username: req.body.username, displayName: req.body.username }), req.body.password, function (err, user) {
     // creates a new User
     // if theres an error

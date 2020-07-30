@@ -119,13 +119,11 @@ async function apiCall(options) {
 router.get('/', async (req, res) => {
   res.set('Cache-Control', 'no-cache')
   res.json(await apiCall(optionsTopRatedRecommended))
-  console.log('root endpoint has been called!')
 })
 // enpoints for trending games
 router.get('/trending', async (req, res) => {
   res.set('Cache-Control', 'no-cache')
   res.json(await apiCall(optionsTrending))
-  console.log('/trending endpoint has been called!')
 })
 
     router.get('/searchArchive', async (req, res) => {
@@ -135,7 +133,6 @@ router.get('/trending', async (req, res) => {
         optionsSearchArchive.qs.q = `title:(${queryTitle}) AND collection:(softwarelibrary^10) AND year:(${queryYear}) AND mediatype:(software)`
         res.set('Cache-Control', 'no-cache')
         res.json(await apiCall(optionsSearchArchive))
-        console.log(`/api/searchArchive?title=${queryTitle}&year=${queryYear} endpoint has been called!`)
       } catch (e) {
         console.error(e)
       }
@@ -147,7 +144,6 @@ router.get('/trending', async (req, res) => {
         optionsSearchOldgameshelf.qs._q = queryTitle
         res.set('Cache-Control', 'no-cache')
         res.json(await apiCall(optionsSearchOldgameshelf))
-        console.log(`searchOldgameshelf?title=${queryTitle} endpoint has been called!`)
       } catch (e) {
         console.error(e)
       }
@@ -159,7 +155,6 @@ router.get('/trending', async (req, res) => {
         optionsSearchSnesnow.qs._q = queryTitle
         res.set('Cache-Control', 'no-cache')
         res.json(await apiCall(optionsSearchSnesnow))
-        console.log(`searchSnesnow?title=${queryTitle} endpoint has been called!`)
       } catch (e) {
         console.error(e)
       }
@@ -171,7 +166,6 @@ router.get('/trending', async (req, res) => {
       optionsVideogameAutocomplete.qs.search = query
       res.set('Cache-Control', 'no-cache')
       res.json(await apiCall(optionsVideogameAutocomplete))
-      console.log(`/api/videogameAutocomplete?q=${query} endpoint has been called!`)
     })
 
 
@@ -206,7 +200,6 @@ router.get('/games/:rawgId', async (req, res) => {
 
   res.set('Cache-Control', 'no-cache')
   res.json(detailsCollected)
-  console.log(`/api/videogame/${id} endpoint has been called!`)
 })
 
 module.exports = router
